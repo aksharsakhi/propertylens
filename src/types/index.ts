@@ -1,12 +1,20 @@
-// PropertyLens Core Types & Interfaces
+// Pan-India PropertyLens Core Types & Interfaces
 
 export type ConfidenceLevel = 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN';
-
-export type InfrastructureStatus = 'ACTIVE' | 'UNDER_CONSTRUCTION' | 'APPROVED' | 'ANNOUNCED' | 'PROPOSED';
 
 export interface LocationCoordinates {
   lat: number;
   lng: number;
+}
+
+export interface LivePoiItem {
+  id: string;
+  name: string;
+  category: 'hospital' | 'school' | 'metro' | 'bus' | 'park' | 'waterbody';
+  distanceKm: number;
+  lat: number;
+  lng: number;
+  tags?: Record<string, string>;
 }
 
 export interface MetricEvidence {
@@ -38,12 +46,11 @@ export interface PropertyDetails {
   id: string;
   address: string;
   locality: string;
-  city: 'Chennai';
+  city: string;
+  state: string;
   pincode?: string;
   coordinates: LocationCoordinates;
-  propertyType?: string; // 2BHK, 3BHK, Plot, Villa
-  askingPrice?: number; // Total or monthly rent
-  rentOrBuy?: 'RENT' | 'BUY';
+  askingPrice?: number;
 }
 
 export interface UserPreferences {
@@ -51,7 +58,6 @@ export interface UserPreferences {
   workplaceCoordinates?: LocationCoordinates;
   preferredCommuteMode?: 'CAR' | 'TWO_WHEELER' | 'METRO' | 'BUS' | 'WALK';
   monthlyBudget?: number;
-  familySize?: number;
   priorityWeights: {
     flood: number;
     commute: number;
@@ -72,7 +78,6 @@ export interface VerificationCheckitem {
   title: string;
   description: string;
   priority: 'CRITICAL' | 'HIGH' | 'RECOMMENDED';
-  isCompleted?: boolean;
 }
 
 export interface AIReportSummary {
@@ -87,6 +92,13 @@ export interface AIReportSummary {
   validated: boolean;
 }
 
+export interface LiveRouteData {
+  distanceKm: number;
+  durationMinutes: number;
+  geometryPolyline?: string;
+  mode: string;
+}
+
 export interface PropertyReport {
   id: string;
   property: PropertyDetails;
@@ -96,8 +108,19 @@ export interface PropertyReport {
   personalizedScore: number;
   categories: CategoryScore[];
   aiReport: AIReportSummary;
+  livePois: LivePoiItem[];
+  routeData?: LiveRouteData;
   generatedAt: string;
   shareableUrl: string;
+}
+
+export interface IndianCityMetadata {
+  name: string;
+  slug: string;
+  state: string;
+  center: LocationCoordinates;
+  keyHubs: string[];
+  description: string;
 }
 
 export interface DataSourceStatus {

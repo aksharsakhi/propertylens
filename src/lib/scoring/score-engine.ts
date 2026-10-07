@@ -98,6 +98,7 @@ export async function generatePropertyReport(
     personalizedScore,
     categories,
     aiReport,
+    livePois: [],
     generatedAt: new Date().toISOString(),
     shareableUrl
   };
